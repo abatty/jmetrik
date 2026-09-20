@@ -29,3 +29,36 @@ mvn install:install-file -Dfile=/psychometrics/target/psychometrics-1.3.jar -Dgr
 ```
 
 Once that's done, you can build jmetrik itself with `mvn clean install`.
+
+Building the reconstructed 4.1.1 release
+========================================
+
+The instructions above describe the build process recorded in the original
+repository. They refer to psychometrics 1.3. However, the official jMetrik
+4.1.1 release uses psychometrics 1.4.
+
+The source corresponding to the published jMetrik 4.1.1 binary has been
+reconstructed from the project's Git history and verified against the
+official release JAR. See `RECONSTRUCTION.md` for details.
+
+To build the reconstructed release, JDK 8 and Maven are required.
+
+First set `JAVA_HOME` to a JDK 8 installation. Then run:
+
+    ./scripts/build-dependencies.sh
+
+This script clones the original psychometrics repository, checks out commit
+`4329698`, builds psychometrics 1.4 using its original Java 7 source/target
+settings, runs its tests, and installs it in the local Maven repository.
+
+With `JAVA_HOME` still set to JDK 8, jMetrik can then be built with:
+
+    mvn clean package
+
+The resulting JAR with dependencies is created in the `target` directory.
+
+Apple Silicon macOS packaging
+=============================
+
+Files for creating a native macOS application wrapper are provided in the
+`macos` directory. See `macos/README.md` for details.
