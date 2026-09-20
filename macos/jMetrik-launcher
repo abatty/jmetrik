@@ -1,0 +1,69 @@
+#!/bin/sh
+
+CONTENTS="$(cd "$(dirname "$0")/.." && pwd)"
+RESOURCES="$CONTENTS/Resources"
+
+JAVA=""
+
+# Test a Java executable to see whether it is Java 8 + ARM64.
+check_java() {
+    CANDIDATE="$1"
+
+    [ -x "$CANDIDATE" ] || return 1
+
+    INFO=$("$CANDIDATE" -XshowSettings:properties -version 2>&1)
+
+    VERSION=$(printf '%s\n' "$INFO" |
+        awk -F'= ' '/java.version =/ {print $2; exit}')
+
+    ARCH=$(printf '%s\n' "$INFO" |
+        awk -F'= ' '/os.arch =/ {print $2; exit}')
+
+    case "$VERSION:$ARCH" in
+        1.8.*:aarch64|1.8.*:arm64)
+            JAVA="$CANDIDATE"
+            return 0
+            ;;
+    esac
+
+    return 1
+}
+
+# Search system-wide JVM installations.
+for JVM in /Library/Java/JavaVirtualMachines/*/Contents/Home/bin/java; do
+    if check_java "$JVM"; then
+        break
+    fi
+done
+
+# Search per-user JVM installations.
+if [ -z "$JAVA" ]; then
+    for JVM in "$HOME"/Library/Java/JavaVirtualMachines/*/Contents/Home/bin/java; do
+        if check_java "$JVM"; then
+            break
+        fi
+    done
+fi
+
+# Check Oracle's standalone JRE location.
+if [ -z "$JAVA" ]; then
+    check_java \
+        "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java"
+fi
+
+# If no suitable Java runtime was found, show an error.
+if [ -z "$JAVA" ]; then
+    osascript <<'APPLESCRIPT'
+display alert "Java 8 is required" message "jMetrik requires an ARM64 version of Java 8. Please install a Java 8 JRE for Apple Silicon and try again." as critical
+APPLESCRIPT
+    exit 1
+fi
+
+# Launch jMetrik.
+cd "$RESOURCES"
+
+exec "$JAVA" \
+    -Dfile.encoding=UTF-8 \
+    -Xms128m \
+    -Xmx768m \
+    -jar "$RESOURCES/jmetrik-4.1.1.jar"
