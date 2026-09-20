@@ -1,3 +1,6 @@
 database
 log
 target
+.DS_Store
+
+dist/
