@@ -13,7 +13,7 @@
     <string>app.icns</string>
 
     <key>CFBundleIdentifier</key>
-    <string>com.itemanalysis.jmetrik</string>
+    <string>net.aaronbatty.jmetrik</string>
 
     <key>CFBundleName</key>
     <string>jMetrik</string>
