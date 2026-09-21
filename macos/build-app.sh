@@ -36,6 +36,17 @@ cp "$JAR" "$APP/Contents/Resources/jmetrik-$VERSION.jar"
 cp "$SCRIPT_DIR/jMetrik-launcher" "$APP/Contents/MacOS/jMetrik"
 cp "$SCRIPT_DIR/Info.plist" "$APP/Contents/Info.plist"
 
+# Include licensing and third-party notices with the application.
+cp "$PROJECT_DIR/THIRD_PARTY_NOTICES.md" \
+   "$APP/Contents/Resources/THIRD_PARTY_NOTICES.md"
+
+cp -R "$PROJECT_DIR/licenses" \
+   "$APP/Contents/Resources/licenses"
+
+find "$APP/Contents/Resources/licenses" \
+     -name '.DS_Store' \
+     -delete
+
 chmod +x "$APP/Contents/MacOS/jMetrik"
 
 # Build a macOS icon from the jMetrik source artwork.
