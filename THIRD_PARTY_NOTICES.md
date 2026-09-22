@@ -112,13 +112,21 @@ The jMetrik source tree contains historical SQL-builder source under:
 
 Most of these files identify original authors including Nat Pryce,
 Joe Walnes, and Derek Mahar, and surviving internal references identify
-the original package as com.truemesh.squiggle.
+the original package as `com.truemesh.squiggle`.
 
 These files were already present in the initial jMetrik Git commit of
-October 9, 2014. The incorporated historical files do not contain an
-explicit license notice, and an authoritative license for this particular
-historical copy has not been established. Their provenance and authorship
-are therefore recorded here without assigning an unsupported license.
+October 9, 2014. Historical Squiggle 2.0.0 source and binary distributions
+are preserved in the AndyMoreland/squiggle-sql repository together with
+the original `com.truemesh.squiggle` source tree and its license.
+
+Squiggle is Copyright (c) 2000-2008 Joe Walnes and contributors and is
+distributed under a BSD-style license permitting redistribution and use
+in source and binary forms, with or without modification, subject to the
+conditions stated in the license.
+
+The complete Squiggle license is included at:
+
+    licenses/other/Squiggle-BSD.txt
 
 DerbyOffset.java is a later jMetrik-specific component within this package
 namespace and carries its own GNU license notice from J. Patrick Meyer.
