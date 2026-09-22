@@ -55,8 +55,31 @@ ad-hoc signs the resulting application.
 
 The `dist` directory is excluded from Git.
 
+## Building release files
+
+After building `dist/jMetrik.app`, run:
+
+    ./macos/build-release.sh
+
+This creates three release files in `dist`:
+
+    jMetrik-4.1.1-Apple-Silicon.dmg
+    jMetrik-4.1.1-Apple-Silicon.zip
+    jMetrik-4.1.1-Apple-Silicon-SHA256.txt
+
+The DMG uses `dmg-background.png` as its Finder background and
+presents the jMetrik application alongside a link to the Applications
+folder. The Finder window layout is configured automatically during
+the build.
+
+The ZIP preserves macOS resource information and provides an
+alternative to the DMG. The SHA-256 file contains checksums for both
+release archives.
+
 ## Files
 
 - `Info.plist` — macOS application bundle metadata
 - `jMetrik-launcher` — launcher that locates ARM64 Java 8 and starts jMetrik
 - `build-app.sh` — script for constructing the macOS application bundle
+- `build-release.sh` — script for creating the DMG, ZIP, and SHA-256 checksums
+- `dmg-background.png` — background artwork for the DMG Finder window
